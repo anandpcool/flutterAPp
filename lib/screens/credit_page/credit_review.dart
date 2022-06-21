@@ -20,6 +20,7 @@ class CreditReview extends StatefulWidget {
 class _CreditReviewState extends State<CreditReview> {
   List<dynamic>? responseData = [];
   List<BranchValue>? branchCode = [];
+  var isVisible = true;
   TextEditingController startController = TextEditingController();
   TextEditingController endController = TextEditingController();
   TextEditingController dialogController = TextEditingController();
@@ -58,14 +59,30 @@ class _CreditReviewState extends State<CreditReview> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                isVisible = !isVisible;
+              });
+            },
+            icon: Image.asset(
+              "assets/images/filter.png",
+              height: 20,
+              width: 20,
+            ),
+          )
+        ],
       ),
       body: responseData!.length == 0
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(child: showFilter()),
+          : SingleChildScrollView(child: isVisible ? showFilter() : showMyUI()),
     );
   }
 
@@ -196,6 +213,10 @@ class _CreditReviewState extends State<CreditReview> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     onPressed: () {
+                      showMyUI();
+                      setState(() {
+                        isVisible = false;
+                      });
                       //Navigator.pushNamed(context, "/otp");
                     },
                   )),

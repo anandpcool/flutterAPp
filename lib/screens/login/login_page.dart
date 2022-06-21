@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:iboss_flutter/services/remote_service.dart';
+import 'package:iboss_flutter/utils/custom_color.dart';
 import 'package:iboss_flutter/utils/user_simple_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,10 +23,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        height: MediaQuery.of(context).size.height,
+        height: size.height,
+        width: double.infinity,
         child: Material(
             color: Colors.white,
             child: SingleChildScrollView(
@@ -34,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Padding(padding: EdgeInsets.only(top: 60)),
+                    const Padding(padding: EdgeInsets.only(top: 80)),
                     Image.asset(
                       "assets/images/icon_app_logo.png",
                       fit: BoxFit.cover,
@@ -125,6 +128,10 @@ class _LoginPageState extends State<LoginPage> {
                             //Navigator.pushNamed(context, "/otp");
                           },
                         )),
+                    RoundedButton(
+                      text: "Welcome",
+                      press: () {},
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -250,5 +257,34 @@ class _LoginPageState extends State<LoginPage> {
           .showSnackBar(const SnackBar(content: Text("Invalid")));
     }*/
     }
+  }
+}
+
+class RoundedButton extends StatelessWidget {
+  final String text;
+  final VoidCallback press;
+  final Color color, textcolor;
+
+  const RoundedButton({
+    Key? key,
+    this.text = "",
+    required this.press,
+    this.color = ColorConstants.indigoBrand,
+    this.textcolor = ColorConstants.indigoBrand,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: SizedBox(
+        height: 45,
+        width: MediaQuery.of(context).size.width / 1.2,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: ElevatedButton(onPressed: press, child: Text(text)),
+        ),
+      ),
+    );
   }
 }
